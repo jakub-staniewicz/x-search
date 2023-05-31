@@ -112,18 +112,11 @@ export const SearchForm = () => {
     }
 
     const onAdd = (suggestion) => {
-
-
         if (allSuggestions.length > 0) {
             const searchString = suggestion?.search;
-
             if (!suggestion.fromSearchHistory && typeof suggestion?.search === 'string') {
                 setFilteredHistoricalSearches([...filteredHistoricalSearches, suggestion?.search]);
             }
-            // setSearchTerm(searchString);
-            // setInputValue(searchString)
-            // setSearchSugestionVisibility(false);
-            // navigate(`x-search?search=${searchString}`);
             showResults(searchString);
         }
     }
