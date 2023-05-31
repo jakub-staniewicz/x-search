@@ -1,14 +1,20 @@
-
+import { useState } from 'react';
 import './App.css';
-import { movies } from './data/movies';
-import { Wrapper } from './feature/SearchSuggestions/Wrapper';
-const movieTitles = movies.map(movie => movie.title)
+
+import { SuggestionsList } from './feature/SearchSuggestions/SuggestionList';
+import { SearchInput } from './feature/SearchSuggestions/SearchInput/component';
 
 function App() {
+  const [inputValue, setInputValue] = useState('');
+  const onChange = (e) => setInputValue(e.target.value);
   return (
     <>
       <h1>Welcome to fake movie search</h1>
-      <Wrapper suggestions={movieTitles} />
+      <SearchInput
+        value={inputValue}
+        onChange={onChange}
+      />
+      <SuggestionsList inputValue={inputValue} />
     </>
   );
 }

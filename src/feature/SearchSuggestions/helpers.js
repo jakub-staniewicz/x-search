@@ -7,13 +7,20 @@ export function storeStringInLocalStorage(str) {
 export function getAllStoredStrings() {
     return JSON.parse(localStorage.getItem('storedStrings')) || [];
 }
+
+export function setAllStoredStrings(strings) {
+    localStorage.setItem('storedStrings', JSON.stringify(strings));
+}
+
 export function removeStringFromLocalStorage(str) {
-    
     const storedStrings = JSON.parse(localStorage.getItem('storedStrings')) || [];
     const updatedStrings = storedStrings.filter((s) => s !== str);
     localStorage.setItem('storedStrings', JSON.stringify(updatedStrings));
 }
 
-export function onlyUnique(value, index, array) {
-    return array.indexOf(value) === index;
+export const onlyUnique = (value, index, array) =>
+    array.findIndex((el) => el.search === value.search) === index;
+
+export const sortAlphabeticallyPredicate = (el1, el2) => {
+    return el1 < el2 ? -1 : 1;
 }
