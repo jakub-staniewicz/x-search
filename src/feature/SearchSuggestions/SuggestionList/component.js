@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 const getClassString =(selected, recentSearch) => `${selected ? 'selected' : ''} ${recentSearch ? 'recentSearch' : ''}`;
                
 export const SuggestionsList = ({ suggestions, selectedSearchSuggestionIndex, onDelete, onClick }) => {
-    const [onHover, setOnHover] = useState(false);
-
     return <>
         {suggestions?.length > 0 && <ul className="suggestionsList" tabIndex="0">
             {suggestions?.map((suggestion, index) => {

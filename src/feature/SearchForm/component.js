@@ -6,6 +6,7 @@ import { SuggestionsList } from '../SearchSuggestions/SuggestionList'
 import { getSearchParamFromUrl } from '../SearchSuggestions/helpers';
 import { useNavigate } from "react-router-dom";
 import { SearchResultsList } from '../SearchResults/SearchResultsList';
+import { getAllSuggestions } from './helpers';
 
 export const SearchForm = () => {
     const [inputValue, setInputValue] = useState('');
@@ -27,7 +28,7 @@ export const SearchForm = () => {
         const searchTextFromSuggestion = typeof searchTerm === 'object' ? searchTerm?.search : null;
         const searchTextFromInput = inputValue ?? '';
         const searchString = searchTextFromSuggestion ?? searchTextFromInput;
-        
+
         if (searchString) {
             showResults(searchString)
         }
@@ -76,13 +77,7 @@ export const SearchForm = () => {
             suggestion?.toLowerCase()?.startsWith(inputValue?.toLowerCase())
         );
 
-    const allSuggestions = inputValue ? [
-        ...filteredHistoricalSearches.sort(sortAlphabeticallyPredicate).filter(suggestion =>
-            suggestion?.toLowerCase().startsWith(inputValue.toLowerCase())).slice(0, 1).map(search => ({ search, fromSearchHistory: true })),
-        ...filteredSuggestions.sort(sortAlphabeticallyPredicate).map(search => ({ search, fromSearchHistory: false }))
-    ]
-        .filter(onlyUnique)
-        .slice(0, 10) : [];
+    const allSuggestions = getAllSuggestions(inputValue, filteredHistoricalSearches, filteredSuggestions);
 
     const handleKeyDown = (event) => {
         if (event.key === 'ArrowUp' && allSuggestions.length > 1) {
@@ -103,7 +98,7 @@ export const SearchForm = () => {
             }
             );
         }
-        console.log('hoho', selectedSearchSuggestionIndex, allSuggestions[selectedSearchSuggestionIndex]);
+        
         if (event.key === 'Enter' && allSuggestions.length > 0 && selectedSearchSuggestionIndex < allSuggestions.length && selectedSearchSuggestionIndex > 0) {
             console.log('in if');
             setSearchTerm(allSuggestions[selectedSearchSuggestionIndex]);
@@ -127,9 +122,11 @@ export const SearchForm = () => {
     }
 
     return <>
-        <form className={`searchForm${searchSugestionVisibility ? ' active' : ''}`} onKeyDown={(e) => {
-            handleKeyDown(e);
-        }} onSubmit={(e) => handleSubmit(e)} >
+        <form
+            className={`searchForm${searchSugestionVisibility ? ' active' : ''}`}
+            onKeyDown={(e) => { handleKeyDown(e); }}
+            onSubmit={(e) => { handleSubmit(e) }}
+        >
             <div ref={suggestionsRef}>
                 <SearchInput
                     value={inputValue}
