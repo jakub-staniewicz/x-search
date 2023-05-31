@@ -21,13 +21,16 @@ export const SearchForm = () => {
     }
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (!searchTerm.fromSearchHistory && typeof searchTerm?.search === 'string') {
+        if (searchTerm && !searchTerm.fromSearchHistory && typeof searchTerm?.search === 'string') {
             setFilteredHistoricalSearches([...filteredHistoricalSearches, searchTerm?.search]);
         }
-        const searchTextFromSuggestion = searchTerm?.search;
-        const searchTextFromInput = inputValue?.search;
+        const searchTextFromSuggestion = typeof searchTerm === 'object' ? searchTerm?.search : null;
+        const searchTextFromInput = inputValue ?? '';
         const searchString = searchTextFromSuggestion ?? searchTextFromInput;
-        showResults(searchString);
+        
+        if (searchString) {
+            showResults(searchString)
+        }
     };
 
     const onSearchInputChange = (e) => {
@@ -100,7 +103,9 @@ export const SearchForm = () => {
             }
             );
         }
-        if (event.key === 'Enter' && allSuggestions.length > 0) {
+        console.log('hoho', selectedSearchSuggestionIndex, allSuggestions[selectedSearchSuggestionIndex]);
+        if (event.key === 'Enter' && allSuggestions.length > 0 && selectedSearchSuggestionIndex < allSuggestions.length && selectedSearchSuggestionIndex > 0) {
+            console.log('in if');
             setSearchTerm(allSuggestions[selectedSearchSuggestionIndex]);
             setSearchSugestionVisibility(false);
         }
@@ -124,7 +129,7 @@ export const SearchForm = () => {
     return <>
         <form className={`searchForm${searchSugestionVisibility ? ' active' : ''}`} onKeyDown={(e) => {
             handleKeyDown(e);
-        }} onSubmit={(e) => handleSubmit(e, searchTerm ?? inputValue)} >
+        }} onSubmit={(e) => handleSubmit(e)} >
             <div ref={suggestionsRef}>
                 <SearchInput
                     value={inputValue}
