@@ -8,7 +8,12 @@ function filterListByTitle(list, searchTerm) {
     });
 }
 
-export const getSearchResults = (searchTerm, offset) => filterListByTitle(movies, searchTerm)
-    ?.slice(offset, offset + ELEMENTS_PER_PAGE);
+export const getSearchResults = (searchTerm, offset) => {
+    const allResults = filterListByTitle(movies, searchTerm);
+    return ({
+        results: allResults?.slice(offset, offset + ELEMENTS_PER_PAGE),
+        totalListLength: allResults?.length ?? 0
+    })
+};
 
 

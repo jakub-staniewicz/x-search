@@ -1,12 +1,19 @@
 import { useEffect, useState } from "react";
 import { getSearchResults } from "./helpers";
 import { SearchResultsElement } from "../SearchResultsElement";
-const offset = 0;
+import { Pagination } from "../Pagination";
 
 export const SearchResultsList = ({ searchTerm }) => {
     const [searchResults, setSearchResults] = useState(null);
+    const [offset, setOffset] = useState(0);
+    const [listLength, setListLength] = useState(0);
     useEffect(() => {
-        setSearchResults(getSearchResults(searchTerm, offset));
-    }, [searchTerm]);
-    return searchResults?.map(result => <SearchResultsElement key={result.id} result={result} />)
+        const { results = [], totalListLength } = getSearchResults(searchTerm, offset);
+        setSearchResults(results);
+        setListLength(totalListLength);
+    }, [searchTerm, offset, listLength]);
+    return <>
+        {searchResults?.map(result => <SearchResultsElement key={result.id} result={result} />)}
+        <Pagination offset={offset} setOffset={setOffset} listLength={listLength} />
+    </>
 }

@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { SearchResultsList } from '../SearchResults/SearchResultsList';
 
 export const SearchForm = () => {
-    console.log(getSearchParamFromUrl())
     const [inputValue, setInputValue] = useState('');
     const [searchTerm, setSearchTerm] = useState(getSearchParamFromUrl());
     const [searchSugestionVisibility, setSearchSugestionVisibility] = useState(false);
@@ -16,9 +15,11 @@ export const SearchForm = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        navigate(`x-search?search=${searchTerm.search ?? inputValue.search}`);
-        setSearchTerm(searchTerm.search ?? inputValue.search);
-        setInputValue(searchTerm.search ?? inputValue.search);
+        const searchTextFromSuggestion = searchTerm?.search;
+        const searchTextFromInput = inputValue?.search;
+        navigate(`x-search?search=${searchTextFromSuggestion ?? searchTextFromInput}`);
+        setSearchTerm(searchTextFromSuggestion ?? searchTextFromInput);
+        setInputValue(searchTextFromSuggestion ?? searchTextFromInput);
     };
 
     const onSearchInputChange = (e) => {
@@ -27,7 +28,6 @@ export const SearchForm = () => {
     };
 
     const suggestions = movies.map(movie => movie.title)
-    console.log('hoho', movies.map((movie) => ({ id: movie.id, title: movie.title, plot: movie.plot })));
     const [selectedSearchSuggestionIndex, setSelectedSearchSuggestionIndex] = useState(0);
     const [filteredHistoricalSearches, setFilteredHistoricalSearches] = React.useState(() => getAllStoredStrings()
         .filter(suggestion =>
@@ -91,6 +91,7 @@ export const SearchForm = () => {
     }
 
     return <>
+        <h1>X search fake movie results</h1>
         <form onKeyDown={(e) => {
             handleKeyDown(e);
         }} onSubmit={(e) => handleSubmit(e, searchTerm ?? inputValue)} >
