@@ -38,9 +38,25 @@ body {
   outline: none;
   border: none;
   border-radius: 5px;
-  padding: 0 60px 0 20px;
+  padding: 0 60px 0 35px;
   font-size: 18px;
   box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.searchInput .loupe {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 3px;
+  z-index: 2;
+  width: 25px;
+  height: 35px;
+  background-image: url(/public/searchSprites.webp);
+  background-position: 0px 0px;
+  background-size: 21px;
+  background-position: 6px 16px;
+  background-repeat: no-repeat;
 }
 
 .searchForm.active input {
@@ -60,6 +76,7 @@ body {
   border-bottom-right-radius: 5px;
   border-top: solid 1px lightgray;
   box-shadow: 1px 4px 5px rgb(0 0 0 / 43%);
+  z-index: 1;
 }
 
 .suggestionsList button {
@@ -69,6 +86,13 @@ body {
 .suggestionsList .selected button,
 .suggestionsList li:hover button {
   display: inline-block;
+  border: none;
+  background-color: transparent;
+  color: #174ea6;
+}
+
+.suggestionsList li:hover button:hover {
+  text-decoration: underline;
 }
 
 
