@@ -13,13 +13,21 @@ export const SearchForm = () => {
     const [searchSugestionVisibility, setSearchSugestionVisibility] = useState(false);
     const navigate = useNavigate();
 
+    const showResults = (searchString) => {
+        navigate(`x-search?search=${searchString}`);
+        setSearchTerm(searchString);
+        setInputValue(searchString);
+        setSearchSugestionVisibility(false);
+    }
     const handleSubmit = (event) => {
         event.preventDefault();
+        if (!searchTerm.fromSearchHistory && typeof searchTerm?.search === 'string') {
+            setFilteredHistoricalSearches([...filteredHistoricalSearches, searchTerm?.search]);
+        }
         const searchTextFromSuggestion = searchTerm?.search;
         const searchTextFromInput = inputValue?.search;
-        navigate(`x-search?search=${searchTextFromSuggestion ?? searchTextFromInput}`);
-        setSearchTerm(searchTextFromSuggestion ?? searchTextFromInput);
-        setInputValue(searchTextFromSuggestion ?? searchTextFromInput);
+        const searchString = searchTextFromSuggestion ?? searchTextFromInput;
+        showResults(searchString);
     };
 
     const onSearchInputChange = (e) => {
@@ -104,8 +112,19 @@ export const SearchForm = () => {
     }
 
     const onAdd = (suggestion) => {
-        if (!suggestion.fromSearchHistory) {
-            setFilteredHistoricalSearches([...filteredHistoricalSearches, suggestion.search])
+
+
+        if (allSuggestions.length > 0) {
+            const searchString = suggestion?.search;
+
+            if (!suggestion.fromSearchHistory && typeof suggestion?.search === 'string') {
+                setFilteredHistoricalSearches([...filteredHistoricalSearches, suggestion?.search]);
+            }
+            // setSearchTerm(searchString);
+            // setInputValue(searchString)
+            // setSearchSugestionVisibility(false);
+            // navigate(`x-search?search=${searchString}`);
+            showResults(searchString);
         }
     }
 
@@ -124,7 +143,7 @@ export const SearchForm = () => {
                     inputValue={inputValue}
                     suggestions={allSuggestions}
                     onDelete={onDelete}
-                    onAdd={onAdd}
+                    onClick={onAdd}
                     selectedSearchSuggestionIndex={selectedSearchSuggestionIndex}
                 />
                 }

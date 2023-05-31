@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const SuggestionsList = ({ suggestions, selectedSearchSuggestionIndex, onDelete, onAdd }) => <>
+export const SuggestionsList = ({ suggestions, selectedSearchSuggestionIndex, onDelete, onClick }) => <>
     {suggestions?.length > 0 && <ul className="suggestionsList" tabIndex="0">
         {suggestions?.map((suggestion, index) => {
             const selected = selectedSearchSuggestionIndex === index;
@@ -8,7 +8,7 @@ export const SuggestionsList = ({ suggestions, selectedSearchSuggestionIndex, on
                 <li
                     className={selected ? 'selected' : undefined}
                     key={suggestion.search}
-                    onClick={() => { onAdd(suggestion) }}
+                    onClick={() => { onClick(suggestion, index) }}
                 >
                     {suggestion.search}
                     {suggestion.fromSearchHistory && selected && <button onClick={(e) => {
