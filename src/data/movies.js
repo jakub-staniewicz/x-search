@@ -1,4 +1,4 @@
-const genres = [
+export const genres = [
     "Comedy",
     "Fantasy",
     "Crime",
@@ -21,7 +21,7 @@ const genres = [
     "Musical",
     "Sport"
 ];
-const movies = [
+export const movies = [
     {
         "id": 1,
         "title": "Beetlejuice",
