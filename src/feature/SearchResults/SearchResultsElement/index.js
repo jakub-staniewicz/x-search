@@ -1,0 +1,1 @@
+export { SearchResultsElement } from './component';

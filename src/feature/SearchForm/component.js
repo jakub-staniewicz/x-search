@@ -5,6 +5,7 @@ import { SearchInput } from '../SearchSuggestions/SearchInput';
 import { SuggestionsList } from '../SearchSuggestions/SuggestionList'
 import { getSearchParamFromUrl } from '../SearchSuggestions/helpers';
 import { useNavigate } from "react-router-dom";
+import { SearchResultsList } from '../SearchResults/SearchResultsList';
 
 export const SearchForm = () => {
     console.log(getSearchParamFromUrl())
@@ -12,14 +13,13 @@ export const SearchForm = () => {
     const [searchTerm, setSearchTerm] = useState(getSearchParamFromUrl());
     const [searchSugestionVisibility, setSearchSugestionVisibility] = useState(false);
     const navigate = useNavigate()
-    
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log('submit', searchTerm, inputValue);
-    navigate(`x-search?search=${searchTerm.search ?? inputValue.search}`);
-    setSearchTerm(searchTerm.search ?? inputValue.search);
-    setInputValue(searchTerm.search ?? inputValue.search);
-  };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        navigate(`x-search?search=${searchTerm.search ?? inputValue.search}`);
+        setSearchTerm(searchTerm.search ?? inputValue.search);
+        setInputValue(searchTerm.search ?? inputValue.search);
+    };
 
     const onSearchInputChange = (e) => {
         setInputValue(e.target.value);
@@ -27,6 +27,7 @@ export const SearchForm = () => {
     };
 
     const suggestions = movies.map(movie => movie.title)
+    console.log('hoho', movies.map((movie) => ({ id: movie.id, title: movie.title, plot: movie.plot })));
     const [selectedSearchSuggestionIndex, setSelectedSearchSuggestionIndex] = useState(0);
     const [filteredHistoricalSearches, setFilteredHistoricalSearches] = React.useState(() => getAllStoredStrings()
         .filter(suggestion =>
@@ -39,9 +40,9 @@ export const SearchForm = () => {
     }, [filteredHistoricalSearches]);
 
     useEffect(() => {
-       //  inputRef.current.focus();
+        inputRef.current.focus();
         setInputValue(getSearchParamFromUrl());
-        
+
     }, []);
 
     const filteredSuggestions = suggestions
@@ -89,20 +90,23 @@ export const SearchForm = () => {
         }
     }
 
-    return <form onKeyDown={(e) => {
-        handleKeyDown(e);
-    }} onSubmit={(e) => handleSubmit(e, searchTerm ?? inputValue) } >
-        <SearchInput
-            value={inputValue}
-            onChange={onSearchInputChange}
-            ref={inputRef}
-        />
-        {searchSugestionVisibility && <SuggestionsList
-            inputValue={inputValue}
-            suggestions={allSuggestions}
-            onDelete={onDelete}
-            onAdd={onAdd}
-            selectedSearchSuggestionIndex={selectedSearchSuggestionIndex}
-        />}
-    </form>
+    return <>
+        <form onKeyDown={(e) => {
+            handleKeyDown(e);
+        }} onSubmit={(e) => handleSubmit(e, searchTerm ?? inputValue)} >
+            <SearchInput
+                value={inputValue}
+                onChange={onSearchInputChange}
+                ref={inputRef}
+            />
+            {searchSugestionVisibility && <SuggestionsList
+                inputValue={inputValue}
+                suggestions={allSuggestions}
+                onDelete={onDelete}
+                onAdd={onAdd}
+                selectedSearchSuggestionIndex={selectedSearchSuggestionIndex}
+            />}
+        </form>
+        {searchTerm && typeof searchTerm === 'string' && <SearchResultsList searchTerm={searchTerm} />}
+    </>
 }
