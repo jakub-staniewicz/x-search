@@ -113,7 +113,11 @@ body {
 }
 
 .suggestionsList li.recentSearch {
-  color: red;
+  color: #664AFF;
+}
+
+.suggestionsList li.recentSearch::before {
+  background-position: 0 -22px;
 }
 
 
