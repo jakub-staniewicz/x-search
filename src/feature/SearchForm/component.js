@@ -3,15 +3,34 @@ import { setAllStoredStrings, sortAlphabeticallyPredicate, getAllStoredStrings, 
 import { movies } from '../../data/movies';
 import { SearchInput } from '../SearchSuggestions/SearchInput';
 import { SuggestionsList } from '../SearchSuggestions/SuggestionList'
+import { getSearchParamFromUrl } from '../SearchSuggestions/helpers';
+import { useNavigate } from "react-router-dom";
 
 export const SearchForm = () => {
+    console.log(getSearchParamFromUrl())
     const [inputValue, setInputValue] = useState('');
-    const onChange = (e) => setInputValue(e.target.value);
+    const [searchTerm, setSearchTerm] = useState(getSearchParamFromUrl());
+    const [searchSugestionVisibility, setSearchSugestionVisibility] = useState(false);
+    const navigate = useNavigate()
+    
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('submit', searchTerm, inputValue);
+    navigate(`x-search?search=${searchTerm.search ?? inputValue.search}`);
+    setSearchTerm(searchTerm.search ?? inputValue.search);
+    setInputValue(searchTerm.search ?? inputValue.search);
+  };
+
+    const onSearchInputChange = (e) => {
+        setInputValue(e.target.value);
+        setSearchSugestionVisibility(true);
+    };
+
     const suggestions = movies.map(movie => movie.title)
     const [selectedSearchSuggestionIndex, setSelectedSearchSuggestionIndex] = useState(0);
     const [filteredHistoricalSearches, setFilteredHistoricalSearches] = React.useState(() => getAllStoredStrings()
         .filter(suggestion =>
-            suggestion?.toLowerCase().startsWith(inputValue.toLowerCase())));
+            suggestion?.toLowerCase()?.startsWith(inputValue?.toLowerCase())));
 
     const inputRef = useRef(null);
 
@@ -19,14 +38,20 @@ export const SearchForm = () => {
         setAllStoredStrings(filteredHistoricalSearches);
     }, [filteredHistoricalSearches]);
 
+    useEffect(() => {
+       //  inputRef.current.focus();
+        setInputValue(getSearchParamFromUrl());
+        
+    }, []);
+
     const filteredSuggestions = suggestions
         .filter(suggestion =>
-            suggestion.toLowerCase().startsWith(inputValue.toLowerCase())
+            suggestion?.toLowerCase()?.startsWith(inputValue?.toLowerCase())
         );
 
     const allSuggestions = inputValue ? [
         ...filteredHistoricalSearches.sort(sortAlphabeticallyPredicate).filter(suggestion =>
-            suggestion?.toLowerCase().startsWith(inputValue.toLowerCase())).map(search => ({ search, fromSearchHistory: true })),
+            suggestion?.toLowerCase().startsWith(inputValue.toLowerCase())).slice(0, 1).map(search => ({ search, fromSearchHistory: true })),
         ...filteredSuggestions.sort(sortAlphabeticallyPredicate).map(search => ({ search, fromSearchHistory: false }))
     ]
         .filter(onlyUnique)
@@ -47,6 +72,10 @@ export const SearchForm = () => {
             }
             );
         }
+        if (event.key === 'Enter' && allSuggestions.length > 1) {
+            setSearchTerm(allSuggestions[selectedSearchSuggestionIndex]);
+            setSearchSugestionVisibility(false);
+        }
     };
 
     const onDelete = (suggestion, e) => {
@@ -62,18 +91,18 @@ export const SearchForm = () => {
 
     return <form onKeyDown={(e) => {
         handleKeyDown(e);
-    }} >
+    }} onSubmit={(e) => handleSubmit(e, searchTerm ?? inputValue) } >
         <SearchInput
             value={inputValue}
-            onChange={onChange}
+            onChange={onSearchInputChange}
             ref={inputRef}
         />
-        <SuggestionsList
+        {searchSugestionVisibility && <SuggestionsList
             inputValue={inputValue}
             suggestions={allSuggestions}
             onDelete={onDelete}
             onAdd={onAdd}
             selectedSearchSuggestionIndex={selectedSearchSuggestionIndex}
-        />
+        />}
     </form>
 }

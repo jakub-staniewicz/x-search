@@ -17,6 +17,10 @@ export function removeStringFromLocalStorage(str) {
     const updatedStrings = storedStrings.filter((s) => s !== str);
     localStorage.setItem('storedStrings', JSON.stringify(updatedStrings));
 }
+export const getSearchParamFromUrl = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('search');
+};
 
 export const onlyUnique = (value, index, array) =>
     array.findIndex((el) => el.search === value.search) === index;
