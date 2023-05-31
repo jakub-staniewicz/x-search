@@ -1,14 +1,14 @@
 
 import './App.css';
-import { SearchSuggestions } from './components/SearchSuggestions';
-import {movies} from './data/movies';
+import { movies } from './data/movies';
+import { Wrapper } from './feature/SearchSuggestions/Wrapper';
 const movieTitles = movies.map(movie => movie.title)
 
 function App() {
   return (
     <>
       <h1>Welcome to fake movie search</h1>
-      <SearchSuggestions suggestions={movieTitles} />
+      <Wrapper suggestions={movieTitles} />
     </>
   );
 }

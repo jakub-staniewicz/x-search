@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import {storeStringInLocalStorage} from './helpers';
+import React, { useState } from 'react';
+import { storeStringInLocalStorage, removeStringFromLocalStorage } from '../helpers';
 
-export const SuggestionsList = ({suggestions}) => {
+export const SuggestionsList = ({ suggestions }) => {
     const [selectedMonthIndex, setSelectedMonthIndex] = useState(0);
 
     const handleKeyDown = (event) => {
@@ -21,12 +21,17 @@ export const SuggestionsList = ({suggestions}) => {
             {suggestions?.map((suggestion, index) => (
                 <div
                     key={suggestion}
-                    onClick={()=> {storeStringInLocalStorage(suggestion)}}
+                    onClick={() => { storeStringInLocalStorage(suggestion) }}
                     style={{
                         backgroundColor: selectedMonthIndex === index ? '#ccc' : '#fff'
                     }}
+
                 >
                     {suggestion}
+                    <button onClick={(e) => {
+                        e.stopPropagation();
+                        removeStringFromLocalStorage(suggestion)
+                    }}>delete</button>
                 </div>
             ))}
         </div>
