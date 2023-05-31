@@ -12,7 +12,7 @@ export const Pagination = ({ listLength, offset, setOffset }) => {
   }
 
   return (
-    <div>
+    <div className="pagination">
       <button onClick={handlePrev} disabled={offset === 0}>
         Prev
       </button>

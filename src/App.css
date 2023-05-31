@@ -1,1 +1,159 @@
-p {font-family: Arial, Helvetica, sans-serif;}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Google Sans",Roboto,Arial,sans-serif;
+}
+
+body {
+  background: #fff;
+  padding: 0 20px;
+}
+
+::selection {
+  color: #fff;
+  background: #664AFF;
+}
+
+.searchForm {
+  max-width: 450px;
+  margin: 30px auto;
+  background: #fff;
+  border-end-end-radius: 5px;
+  border-end-start-radius: 5px;
+  position: relative;
+}
+
+.searchForm .searchInput {
+  background: #fff;
+  width: 100%;
+  border-radius: 5px;
+  position: relative;
+  box-shadow: 0px 1px 5px 3px rgba(0, 0, 0, 0.12);
+}
+
+.searchInput input {
+  height: 55px;
+  width: 100%;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  padding: 0 60px 0 20px;
+  font-size: 18px;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.searchForm.active input {
+  border-radius: 5px 5px 0 0;
+}
+
+.suggestionsList {
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
+  max-height: 80vh;
+  width: 100%;
+  overflow-y: auto;
+  position: absolute;
+  background-color: #fff;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-top: solid 1px lightgray;
+  box-shadow: 1px 4px 5px rgb(0 0 0 / 43%);
+}
+
+.searchForm.active .suggestionsList {
+  padding: 10px 8px;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.suggestionsList li {
+  list-style: none;
+  padding: 8px 12px;
+  display: none;
+  width: 100%;
+  cursor: default;
+  border-radius: 3px;
+  background-color: #fff;
+  margin: 3px 0;
+}
+
+.suggestionsList li.selected {
+  background-color: #ddd;
+}
+
+.searchForm.active .suggestionsList li {
+  display: block;
+}
+
+.searchForm.active .suggestionsList li:hover {
+  box-shadow: 1px 2px 3px rgb(0 0 0 / 43%);
+}
+
+.searchInput .icon {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  height: 55px;
+  width: 55px;
+  text-align: center;
+  line-height: 55px;
+  font-size: 20px;
+  color: #644bff;
+  cursor: pointer;
+}
+
+.pagination {
+  margin: 20px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.pagination button {
+  align-items: center;
+  appearance: none;
+  background-color: #fff;
+  border-radius: 24px;
+  border-style: none;
+  box-shadow: rgba(0, 0, 0, .2) 0 3px 5px -1px,rgba(0, 0, 0, .14) 0 6px 10px 0,rgba(0, 0, 0, .12) 0 1px 18px 0;
+  box-sizing: border-box;
+  color: #3c4043;
+  cursor: pointer;
+  display: inline-flex;
+  fill: currentcolor;
+  font-family: "Google Sans",Roboto,Arial,sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  height: 48px;
+  justify-content: center;
+  letter-spacing: .25px;
+  line-height: normal;
+  max-width: 100%;
+  overflow: visible;
+  padding: 2px 24px;
+  position: relative;
+  text-align: center;
+  text-transform: none;
+  transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1),opacity 15ms linear 30ms,transform 270ms cubic-bezier(0, 0, .2, 1) 0ms;
+  user-select: none;
+  touch-action: manipulation;
+  width: auto;
+  will-change: transform,opacity;
+  z-index: 0;
+}
+
+.pagination button:not(:disabled):hover {
+  background: #F6F9FE;
+  color: #174ea6;
+}
+
+.pagiantion button:not(:disabled) {
+  box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
+}
+
+.pagination button:disabled {
+  opacity: 0.5
+}

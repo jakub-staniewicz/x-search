@@ -11,7 +11,7 @@ export const SearchForm = () => {
     const [inputValue, setInputValue] = useState('');
     const [searchTerm, setSearchTerm] = useState(getSearchParamFromUrl());
     const [searchSugestionVisibility, setSearchSugestionVisibility] = useState(false);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -25,15 +25,31 @@ export const SearchForm = () => {
     const onSearchInputChange = (e) => {
         setInputValue(e.target.value);
         setSearchSugestionVisibility(true);
+        setSelectedSearchSuggestionIndex(null);
     };
+    const onInputClick = () => {
+        setSearchSugestionVisibility(true);
+    }
+    const inputRef = useRef(null);
+    const suggestionsRef = useRef(null);
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (suggestionsRef.current && !suggestionsRef.current.contains(event.target)) {
+                setSearchSugestionVisibility(false);
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [suggestionsRef]);
 
     const suggestions = movies.map(movie => movie.title)
     const [selectedSearchSuggestionIndex, setSelectedSearchSuggestionIndex] = useState(0);
     const [filteredHistoricalSearches, setFilteredHistoricalSearches] = React.useState(() => getAllStoredStrings()
         .filter(suggestion =>
             suggestion?.toLowerCase()?.startsWith(inputValue?.toLowerCase())));
-
-    const inputRef = useRef(null);
 
     useEffect(() => {
         setAllStoredStrings(filteredHistoricalSearches);
@@ -42,7 +58,6 @@ export const SearchForm = () => {
     useEffect(() => {
         inputRef.current.focus();
         setInputValue(getSearchParamFromUrl());
-
     }, []);
 
     const filteredSuggestions = suggestions
@@ -60,20 +75,24 @@ export const SearchForm = () => {
 
     const handleKeyDown = (event) => {
         if (event.key === 'ArrowUp' && allSuggestions.length > 1) {
+            event.preventDefault();
             setSelectedSearchSuggestionIndex((prevIndex) => {
+                if (prevIndex === null) { return 0 }
                 const currentIndex = prevIndex === 0 ? allSuggestions.length - 1 : prevIndex - 1;
                 return currentIndex;
             }
             );
         }
-        if (event.key === 'ArrowDown' && allSuggestions.length > 1) {
+        if (event.key === 'ArrowDown' && allSuggestions.length > 0) {
+            event.preventDefault();
             setSelectedSearchSuggestionIndex((prevIndex) => {
+                if (prevIndex === null) { return 0 }
                 const currentIndex = prevIndex === allSuggestions.length - 1 ? 0 : prevIndex + 1;
                 return currentIndex;
             }
             );
         }
-        if (event.key === 'Enter' && allSuggestions.length > 1) {
+        if (event.key === 'Enter' && allSuggestions.length > 0) {
             setSearchTerm(allSuggestions[selectedSearchSuggestionIndex]);
             setSearchSugestionVisibility(false);
         }
@@ -91,22 +110,25 @@ export const SearchForm = () => {
     }
 
     return <>
-        <h1>X search fake movie results</h1>
-        <form onKeyDown={(e) => {
+        <form className={`searchForm${searchSugestionVisibility ? ' active' : ''}`} onKeyDown={(e) => {
             handleKeyDown(e);
         }} onSubmit={(e) => handleSubmit(e, searchTerm ?? inputValue)} >
-            <SearchInput
-                value={inputValue}
-                onChange={onSearchInputChange}
-                ref={inputRef}
-            />
-            {searchSugestionVisibility && <SuggestionsList
-                inputValue={inputValue}
-                suggestions={allSuggestions}
-                onDelete={onDelete}
-                onAdd={onAdd}
-                selectedSearchSuggestionIndex={selectedSearchSuggestionIndex}
-            />}
+            <div ref={suggestionsRef}>
+                <SearchInput
+                    value={inputValue}
+                    onChange={onSearchInputChange}
+                    onClick={onInputClick}
+                    ref={inputRef}
+                />
+                {searchSugestionVisibility && <SuggestionsList
+                    inputValue={inputValue}
+                    suggestions={allSuggestions}
+                    onDelete={onDelete}
+                    onAdd={onAdd}
+                    selectedSearchSuggestionIndex={selectedSearchSuggestionIndex}
+                />
+                }
+            </div>
         </form>
         {searchTerm && typeof searchTerm === 'string' && <SearchResultsList searchTerm={searchTerm} />}
     </>
