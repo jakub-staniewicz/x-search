@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ELEMENTS_PER_PAGE } from '../SearchResultsList';
 
 export const Pagination = ({ listLength, offset, setOffset }) => {
 
   function handleNext() {
-    setOffset((prevOffset) => prevOffset + 5);
+    setOffset((prevOffset) => prevOffset + ELEMENTS_PER_PAGE);
   }
 
   function handlePrev() {
-    setOffset((prevOffset) => prevOffset - 5);
+    setOffset((prevOffset) => prevOffset - ELEMENTS_PER_PAGE);
   }
 
   return (
@@ -16,7 +17,7 @@ export const Pagination = ({ listLength, offset, setOffset }) => {
       <button onClick={handlePrev} disabled={offset === 0}>
         Prev
       </button>
-      <button onClick={handleNext} disabled={offset + 5 >= listLength}>
+      <button onClick={handleNext} disabled={offset + ELEMENTS_PER_PAGE >= listLength}>
         Next
       </button>
     </div>
@@ -24,8 +25,8 @@ export const Pagination = ({ listLength, offset, setOffset }) => {
 }
 
 Pagination.propTypes = {
-    listLength: PropTypes.number.isRequired,
-    offset: PropTypes.number.isRequired,
-    setOffset: PropTypes.func.isRequired,
-  };
+  listLength: PropTypes.number.isRequired,
+  offset: PropTypes.number.isRequired,
+  setOffset: PropTypes.func.isRequired,
+};
 
