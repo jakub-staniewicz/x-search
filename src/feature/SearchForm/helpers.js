@@ -1,5 +1,6 @@
 import { onlyUnique, sortAlphabeticallyPredicate } from "../SearchSuggestions/helpers";
 import { movies } from "../../data/movies";
+import { getAllStoredStrings } from "../SearchSuggestions/helpers";
 
 const getFilteredSuggestions = (inputValue) => {
     const suggestions = movies.map(movie => movie.title);
@@ -28,3 +29,15 @@ export const getAllSuggestions = (
         .filter(onlyUnique)
         .slice(0, 10) : [];
 }
+
+export const getRecentSearches = (inputValue) => getAllStoredStrings()
+    .filter(suggestion => suggestion?.toLowerCase()?.startsWith(inputValue?.toLowerCase()));
+
+export const newSearchExists = (searchTerm) => searchTerm && !searchTerm.fromSearchHistory && typeof searchTerm?.search === 'string';
+export const getSearchStringForResults = (searchTerm, inputValue) => {
+    const searchTextFromSuggestion = typeof searchTerm === 'object' ? searchTerm?.search : null;
+    const searchTextFromInput = inputValue ?? '';
+    return searchTextFromSuggestion ?? searchTextFromInput;
+}
+
+export const outsideEvent = (ref, event) => ref.current && !ref.current.contains(event.target)

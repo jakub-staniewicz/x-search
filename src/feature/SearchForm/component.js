@@ -1,36 +1,36 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { setAllStoredStrings, getAllStoredStrings } from '../SearchSuggestions/helpers';
+import { setAllStoredStrings } from '../SearchSuggestions/helpers';
 import { SearchInput } from '../SearchSuggestions/SearchInput';
 import { SuggestionsList } from '../SearchSuggestions/SuggestionList'
 import { getSearchParamFromUrl } from '../SearchSuggestions/helpers';
 import { useNavigate } from "react-router-dom";
 import { SearchResultsList } from '../SearchResults/SearchResultsList';
-import { getAllSuggestions } from './helpers';
+import { getAllSuggestions, getRecentSearches, newSearchExists, getSearchStringForResults, outsideEvent } from './helpers';
+import { SEARCH_URL } from './constants';
+import { useClickout } from './hooks';
 
 export const SearchForm = () => {
     const [inputValue, setInputValue] = useState('');
     const [searchTerm, setSearchTerm] = useState(getSearchParamFromUrl());
     const [searchSugestionVisibility, setSearchSugestionVisibility] = useState(false);
+    const [selectedSearchSuggestionIndex, setSelectedSearchSuggestionIndex] = useState(0);
+    const [filteredHistoricalSearches, setFilteredHistoricalSearches] = React.useState(
+        () => getRecentSearches(inputValue));
     const navigate = useNavigate();
 
     const showResults = (searchString) => {
-        navigate(`x-search?search=${searchString}`);
+        navigate(`${SEARCH_URL}${searchString}`);
         setSearchTerm(searchString);
         setInputValue(searchString);
         setSearchSugestionVisibility(false);
     }
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (searchTerm && !searchTerm.fromSearchHistory && typeof searchTerm?.search === 'string') {
+        if (newSearchExists(searchTerm)) {
             setFilteredHistoricalSearches([...filteredHistoricalSearches, searchTerm?.search]);
         }
-        const searchTextFromSuggestion = typeof searchTerm === 'object' ? searchTerm?.search : null;
-        const searchTextFromInput = inputValue ?? '';
-        const searchString = searchTextFromSuggestion ?? searchTextFromInput;
-
-        if (searchString) {
-            showResults(searchString)
-        }
+        const searchString = getSearchStringForResults(searchTerm, inputValue);
+        if (searchString) { showResults(searchString) }
     };
 
     const onSearchInputChange = (e) => {
@@ -38,30 +38,20 @@ export const SearchForm = () => {
         setSearchSugestionVisibility(true);
         setSelectedSearchSuggestionIndex(null);
     };
+
     const onInputClick = () => {
         setSearchSugestionVisibility(true);
     }
     const inputRef = useRef(null);
     const suggestionsRef = useRef(null);
 
-    useEffect(() => {
-        function handleClickOutside(event) {
-            if (suggestionsRef.current && !suggestionsRef.current.contains(event.target)) {
-                setSearchSugestionVisibility(false);
-            }
+    const handleClickOutside = (event) => {
+        if (outsideEvent(suggestionsRef, event)) {
+            setSearchSugestionVisibility(false);
         }
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [suggestionsRef]);
+    }
 
-    
-    const [selectedSearchSuggestionIndex, setSelectedSearchSuggestionIndex] = useState(0);
-    const [filteredHistoricalSearches, setFilteredHistoricalSearches] = React.useState(() => getAllStoredStrings()
-        .filter(suggestion =>
-            suggestion?.toLowerCase()?.startsWith(inputValue?.toLowerCase())));
-
+    useClickout(suggestionsRef, handleClickOutside);
     useEffect(() => {
         setAllStoredStrings(filteredHistoricalSearches);
     }, [filteredHistoricalSearches]);
@@ -70,10 +60,8 @@ export const SearchForm = () => {
         inputRef.current.focus();
         setInputValue(getSearchParamFromUrl());
     }, []);
-    
 
     const allSuggestions = getAllSuggestions(inputValue, filteredHistoricalSearches);
-
     const handleKeyDown = (event) => {
         if (event.key === 'ArrowUp' && allSuggestions.length > 1) {
             event.preventDefault();
@@ -90,12 +78,10 @@ export const SearchForm = () => {
                 if (prevIndex === null) { return 0 }
                 const currentIndex = prevIndex === allSuggestions.length - 1 ? 0 : prevIndex + 1;
                 return currentIndex;
-            }
-            );
+            });
         }
-        
+
         if (event.key === 'Enter' && allSuggestions.length > 0 && selectedSearchSuggestionIndex < allSuggestions.length && selectedSearchSuggestionIndex > 0) {
-            console.log('in if');
             setSearchTerm(allSuggestions[selectedSearchSuggestionIndex]);
             setSearchSugestionVisibility(false);
         }
@@ -109,8 +95,8 @@ export const SearchForm = () => {
     const onAdd = (suggestion) => {
         if (allSuggestions.length > 0) {
             const searchString = suggestion?.search;
-            if (!suggestion.fromSearchHistory && typeof suggestion?.search === 'string') {
-                setFilteredHistoricalSearches([...filteredHistoricalSearches, suggestion?.search]);
+            if (!suggestion.fromSearchHistory && typeof searchString === 'string') {
+                setFilteredHistoricalSearches([...filteredHistoricalSearches, searchString]);
             }
             showResults(searchString);
         }
@@ -135,8 +121,7 @@ export const SearchForm = () => {
                     onDelete={onDelete}
                     onClick={onAdd}
                     selectedSearchSuggestionIndex={selectedSearchSuggestionIndex}
-                />
-                }
+                />}
             </div>
         </form>
         {searchTerm && typeof searchTerm === 'string' && <SearchResultsList searchTerm={searchTerm} />}
