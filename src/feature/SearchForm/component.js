@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { setAllStoredStrings, sortAlphabeticallyPredicate, getAllStoredStrings, onlyUnique } from '../SearchSuggestions/helpers';
-import { movies } from '../../data/movies';
+import { setAllStoredStrings, getAllStoredStrings } from '../SearchSuggestions/helpers';
 import { SearchInput } from '../SearchSuggestions/SearchInput';
 import { SuggestionsList } from '../SearchSuggestions/SuggestionList'
 import { getSearchParamFromUrl } from '../SearchSuggestions/helpers';
@@ -57,7 +56,7 @@ export const SearchForm = () => {
         };
     }, [suggestionsRef]);
 
-    const suggestions = movies.map(movie => movie.title)
+    
     const [selectedSearchSuggestionIndex, setSelectedSearchSuggestionIndex] = useState(0);
     const [filteredHistoricalSearches, setFilteredHistoricalSearches] = React.useState(() => getAllStoredStrings()
         .filter(suggestion =>
@@ -71,13 +70,9 @@ export const SearchForm = () => {
         inputRef.current.focus();
         setInputValue(getSearchParamFromUrl());
     }, []);
+    
 
-    const filteredSuggestions = suggestions
-        .filter(suggestion =>
-            suggestion?.toLowerCase()?.startsWith(inputValue?.toLowerCase())
-        );
-
-    const allSuggestions = getAllSuggestions(inputValue, filteredHistoricalSearches, filteredSuggestions);
+    const allSuggestions = getAllSuggestions(inputValue, filteredHistoricalSearches);
 
     const handleKeyDown = (event) => {
         if (event.key === 'ArrowUp' && allSuggestions.length > 1) {

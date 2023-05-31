@@ -9,6 +9,6 @@ export const SearchResultsElement = ({ result }) => {
         >
             <h3>{result.title}</h3>
         </a>
-        <span>{result.plot}</span>
+        <span className="resultsContent">{result.plot}</span>
     </>
 }
