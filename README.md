@@ -15,8 +15,7 @@ After keyword is provided to input, you can (let's assume input is filled with "
 - press keyUp -> last suggestion will be highlighted
 - press enter -> results for Al will be shown
 
-Delete button is shown only if relevant (first as I was instructed to show only one recentSearch)
-suggestion is highlighted or hovered.
+Delete button is shown only if relevant: when suggestion is highlighted (when up/down keys are used) or hovered.
 
 While search suggestion is clicked, results are shown, number of results and time of (faked search is real and based on random promise resolution delay).
 
