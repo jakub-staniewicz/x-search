@@ -72,11 +72,11 @@ export const SearchForm = () => {
 
   const allSuggestions = getAllSuggestions(inputValue, filteredHistoricalSearches);
   const handleKeyDown = (event) => {
-    if (event.key === 'ArrowUp' && allSuggestions.length > 1) {
+    if (event.key === 'ArrowUp' && allSuggestions.length > 0) {
       event.preventDefault();
       setSelectedSearchSuggestionIndex((prevIndex) => {
         if (prevIndex === null) {
-          return 0;
+          return allSuggestions.length - 1;
         }
         const currentIndex = prevIndex === 0 ? allSuggestions.length - 1 : prevIndex - 1;
         return currentIndex;
@@ -97,7 +97,7 @@ export const SearchForm = () => {
       event.key === 'Enter' &&
       allSuggestions.length > 0 &&
       selectedSearchSuggestionIndex < allSuggestions.length &&
-      selectedSearchSuggestionIndex > 0
+      selectedSearchSuggestionIndex >= 0
     ) {
       setSearchTerm(allSuggestions[selectedSearchSuggestionIndex]);
       setSearchSugestionVisibility(false);
@@ -107,6 +107,7 @@ export const SearchForm = () => {
   const onDelete = (suggestion, e) => {
     e.stopPropagation();
     setFilteredHistoricalSearches((searches) => searches.filter((s) => s !== suggestion.search));
+    inputRef.current.focus();
   };
 
   const onAdd = (suggestion) => {

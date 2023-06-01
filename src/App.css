@@ -84,12 +84,12 @@ body {
   z-index: 1;
 }
 
-.suggestionsList button {
+.suggestionsList .button {
   display: none;
 }
 
-.suggestionsList .selected button,
-.suggestionsList li:hover button {
+.suggestionsList .selected .button,
+.suggestionsList li:hover .button {
   display: inline-block;
   border: none;
   background-color: transparent;
@@ -114,7 +114,7 @@ h3 {
   font-size: 14px;
 }
 
-.suggestionsList li:hover button:hover {
+.suggestionsList li:hover .button:hover {
   text-decoration: underline;
 }
 

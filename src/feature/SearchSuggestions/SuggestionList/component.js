@@ -26,12 +26,13 @@ export const SuggestionsList = ({
                 }}>
                 {suggestion.search}
                 {recentSearch && (
-                  <button
+                  <div
+                    className="button"
                     onClick={(e) => {
                       onDelete(suggestion, e);
                     }}>
                     delete
-                  </button>
+                  </div>
                 )}
               </li>
             );

@@ -8,7 +8,7 @@ export function setAllStoredStrings(strings) {
 
 export const getSearchParamFromUrl = () => {
   const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get('search');
+  return urlParams.get('search') ?? '';
 };
 
 export const onlyUnique = (value, index, array) =>
