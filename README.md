@@ -4,8 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 Data is hardcoded on the basis of:
 [https://github.com/erik-sytnyk/movies-list/blob/master/db.json](https://github.com/erik-sytnyk/movies-list/blob/master/db.json)
 
-Just for sake of presentation each title was mutated 6 times (prefix added) just to show that
-_pagination_ works.
+Just for sake of presentation each title was mutated 6 times (prefix --1, --2,... added) just to show that _pagination_ works.
 
 The implementation is a tad more complex than in assignment.
 After keyword is provided to input, you can (let's assume input is filled with "Al"):
@@ -13,7 +12,7 @@ After keyword is provided to input, you can (let's assume input is filled with "
 - click on suggestion -> search results for clicked string will be shown (results for Alive)
 - press keyDown -> first suggestion will be highlighted
 - press keyUp -> last suggestion will be highlighted
-- press enter -> results for Al will be shown
+- press enter -> results for Al will be shown (if keyUp/keyDown was not pressed, if any suggestion is highlighted its relevant results will be shown)
 
 Delete button is shown only if relevant: when suggestion is highlighted (when up/down keys are used) or hovered.
 
