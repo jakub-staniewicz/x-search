@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { setAllStoredStrings } from '../SearchSuggestions/helpers';
+import { setAllStoredStrings } from '../SearchSuggestions/SuggestionList/helpers';
 import { SearchInput } from '../SearchSuggestions/SearchInput';
 import { SuggestionsList } from '../SearchSuggestions/SuggestionList'
-import { getSearchParamFromUrl } from '../SearchSuggestions/helpers';
+import { getSearchParamFromUrl } from '../SearchSuggestions/SuggestionList/helpers';
 import { useNavigate } from "react-router-dom";
 import { SearchResultsList } from '../SearchResults/SearchResultsList';
 import { getAllSuggestions, getRecentSearches, newSearchExists, getSearchStringForResults, outsideEvent } from './helpers';

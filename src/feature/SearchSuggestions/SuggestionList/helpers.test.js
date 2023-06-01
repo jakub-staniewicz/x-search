@@ -1,4 +1,4 @@
-import { getAllStoredStrings, setAllStoredStrings, getSearchParamFromUrl, onlyUnique, sortAlphabeticallyPredicate } from './helpers';
+import { getAllStoredStrings, setAllStoredStrings, onlyUnique, sortAlphabeticallyPredicate } from './helpers';
 describe('getAllStoredStrings', () => {
     it('returns an empty array if there are no stored strings', () => {
         localStorage.clear();

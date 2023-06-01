@@ -1,6 +1,6 @@
-import { onlyUnique, sortAlphabeticallyPredicate } from "../SearchSuggestions/helpers";
+import { onlyUnique, sortAlphabeticallyPredicate } from "../SearchSuggestions/SuggestionList/helpers";
 import { movies } from "../../data/movies";
-import { getAllStoredStrings } from "../SearchSuggestions/helpers";
+import { getAllStoredStrings } from "../SearchSuggestions/SuggestionList/helpers";
 
 const getFilteredSuggestions = (inputValue) => {
     const suggestions = movies.map(movie => movie.title);
