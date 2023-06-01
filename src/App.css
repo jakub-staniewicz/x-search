@@ -4,6 +4,13 @@
   box-sizing: border-box;
   font-family: 'Google Sans', Roboto, Arial, sans-serif;
 }
+:root {
+  --blue: #664aff;
+  --white: #ffffff;
+  --gray: #70757a;
+  --veryLightGray: #eee;
+  --borderRadius: 25px;
+}
 
 #root {
   max-width: 680px;
@@ -11,28 +18,28 @@
 }
 
 body {
-  background: #fff;
+  background: var(--white);
   padding: 0 20px;
 }
 
 ::selection {
-  color: #fff;
-  background: #664aff;
+  color: var(--white);
+  background: var(--blue)
 }
 
 .searchForm {
   max-width: 450px;
   margin: 30px auto;
-  background: #fff;
-  border-end-end-radius: 25px;
-  border-end-start-radius: 25px;
+  background: var(--white);
+  border-end-end-radius: var(--borderRadius);
+  border-end-start-radius: var(--borderRadius);
   position: relative;
 }
 
 .searchForm .searchInput {
-  background: #fff;
+  background: var(--white);
   width: 100%;
-  border-radius: 25px;
+  border-radius: var(--borderRadius);
   position: relative;
   box-shadow: 0px 1px 5px 3px rgba(0, 0, 0, 0.12);
 }
@@ -42,7 +49,7 @@ body {
   width: 100%;
   outline: none;
   border: none;
-  border-radius: 25px;
+  border-radius: var(--borderRadius);
   padding: 0 60px 0 35px;
   font-size: 18px;
   box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
@@ -76,9 +83,9 @@ body {
   width: 100%;
   overflow-y: auto;
   position: absolute;
-  background-color: #fff;
-  border-bottom-left-radius: 25px;
-  border-bottom-right-radius: 25px;
+  background-color: var(--white);
+  border-bottom-left-radius: var(--borderRadius);
+  border-bottom-right-radius: var(--borderRadius);
   border-top: solid 1px lightgray;
   box-shadow: 1px 4px 5px rgb(0 0 0 / 43%);
   z-index: 1;
@@ -93,7 +100,7 @@ body {
   display: inline-block;
   border: none;
   background-color: transparent;
-  color: #174ea6;
+  color: var(--blue);
 }
 
 h3 {
@@ -109,13 +116,21 @@ h3 {
 }
 
 .metadata {
-  color: #70757a;
+  color: var(--gray);
   line-height: 43px;
   font-size: 14px;
 }
 
 .suggestionsList li:hover .button:hover {
   text-decoration: underline;
+}
+
+.suggestionsList:hover li .button {
+  color: transparent
+}
+
+.suggestionsList:hover li:hover .button {
+  color: var(--blue);
 }
 
 .searchForm.active .suggestionsList {
@@ -131,7 +146,7 @@ h3 {
   width: 100%;
   cursor: default;
   border-radius: 3px;
-  background-color: #fff;
+  background-color: var(--white);
   margin: 3px 0;
 }
 
@@ -153,7 +168,7 @@ h3 {
 }
 
 .suggestionsList li.selected {
-  background-color: #eee;
+  background-color: var(--veryLightGray);
 }
 
 .suggestionsList:hover li.selected {
@@ -161,7 +176,7 @@ h3 {
 }
 
 .suggestionsList li.recentSearch {
-  color: #664aff;
+  color: var(--blue);
 }
 
 .suggestionsList li.recentSearch::before {
@@ -170,7 +185,7 @@ h3 {
 
 .searchForm.active .suggestionsList li:hover {
   box-shadow: 1px 2px 3px rgb(0 0 0 / 43%);
-  background-color: #eee;
+  background-color: var(--veryLightGray);
 }
 
 .searchInput .icon {
@@ -182,7 +197,7 @@ h3 {
   text-align: center;
   line-height: 55px;
   font-size: 20px;
-  color: #644bff;
+  color: var(--blue);
   cursor: pointer;
 }
 
@@ -195,8 +210,8 @@ h3 {
 .pagination button {
   align-items: center;
   appearance: none;
-  background-color: #fff;
-  border-radius: 25px;
+  background-color: var(--white);
+  border-radius: var(--borderRadius);
   border-style: none;
   box-shadow: rgba(0, 0, 0, 0.2) 0 3px 5px -1px, rgba(0, 0, 0, 0.14) 0 6px 10px 0,
     rgba(0, 0, 0, 0.12) 0 1px 18px 0;
@@ -229,7 +244,7 @@ h3 {
 
 .pagination button:not(:disabled):hover {
   background: #f6f9fe;
-  color: #174ea6;
+  color: var(--blue);
 }
 
 .pagiantion button:not(:disabled) {
