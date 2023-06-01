@@ -1,1 +1,5 @@
-export const ErrorMessage = () => <p>Oh no wrong url go <a href='/'>here</a></p>;
+export const ErrorMessage = () => (
+  <p>
+    Oh no wrong url go <a href="/">here</a>
+  </p>
+);

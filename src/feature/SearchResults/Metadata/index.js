@@ -1,1 +1,1 @@
-export {Metadata} from './component';
+export { Metadata } from './component';

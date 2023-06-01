@@ -6,10 +6,10 @@ import { ErrorBoundary } from './feature/Error/ErrorBounduary';
 
 const router = createBrowserRouter([
   {
-    path: "/*",
+    path: '/*',
     element: <SearchForm />,
     errorElement: <ErrorMessage />
-  },
+  }
 ]);
 
 function App() {

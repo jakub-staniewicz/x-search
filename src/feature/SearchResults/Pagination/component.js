@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { ELEMENTS_PER_PAGE } from '../SearchResultsList';
 
 export const Pagination = ({ listLength, offset, setOffset }) => {
-
   function handleNext() {
     setOffset((prevOffset) => prevOffset + ELEMENTS_PER_PAGE);
   }
@@ -22,11 +21,10 @@ export const Pagination = ({ listLength, offset, setOffset }) => {
       </button>
     </div>
   );
-}
+};
 
 Pagination.propTypes = {
   listLength: PropTypes.number.isRequired,
   offset: PropTypes.number.isRequired,
-  setOffset: PropTypes.func.isRequired,
+  setOffset: PropTypes.func.isRequired
 };
-

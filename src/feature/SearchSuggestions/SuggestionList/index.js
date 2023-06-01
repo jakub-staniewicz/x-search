@@ -1,1 +1,1 @@
-export {SuggestionsList} from './component';
+export { SuggestionsList } from './component';

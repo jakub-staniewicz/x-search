@@ -23,7 +23,9 @@ describe('Pagination', () => {
 
   it('should call the setOffset function when the Prev or Next buttons are clicked', () => {
     const setOffsetMock = jest.fn();
-    const { getByText } = render(<Pagination listLength={25} offset={10} setOffset={setOffsetMock} />);
+    const { getByText } = render(
+      <Pagination listLength={25} offset={10} setOffset={setOffsetMock} />
+    );
     const prevButton = getByText('Prev');
     const nextButton = getByText('Next');
     fireEvent.click(nextButton);

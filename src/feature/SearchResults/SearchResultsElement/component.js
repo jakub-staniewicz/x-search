@@ -1,14 +1,12 @@
-import React from "react";
-import { generateLink } from "./helpers";
+import React from 'react';
+import { generateLink } from './helpers';
 export const SearchResultsElement = ({ result }) => {
-    return <>
-        <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href={generateLink(result.title)}
-        >
-            <h3>{result.title}</h3>
-        </a>
-        <span className="resultsContent">{result.plot}</span>
+  return (
+    <>
+      <a target="_blank" rel="noopener noreferrer" href={generateLink(result.title)}>
+        <h3>{result.title}</h3>
+      </a>
+      <span className="resultsContent">{result.plot}</span>
     </>
-}
+  );
+};
