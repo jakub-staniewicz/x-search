@@ -41,8 +41,8 @@ describe('onlyUnique', () => {
 
 describe('sortAlphabeticallyPredicate', () => {
   it('sorts two elements alphabetically', () => {
-    const el1 = 'test element 1';
-    const el2 = 'test element 2';
+    const el1 = { search: 'test element 1' };
+    const el2 = { search: 'test element 2' };
     expect(sortAlphabeticallyPredicate(el1, el2)).toBe(-1);
     expect(sortAlphabeticallyPredicate(el2, el1)).toBe(1);
   });

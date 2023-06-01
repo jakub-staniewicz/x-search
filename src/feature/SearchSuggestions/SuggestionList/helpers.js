@@ -15,5 +15,5 @@ export const onlyUnique = (value, index, array) =>
   array.findIndex((el) => el.search === value.search) === index;
 
 export const sortAlphabeticallyPredicate = (el1, el2) => {
-  return el1 < el2 ? -1 : 1;
+  return el1.search < el2.search ? -1 : 1;
 };
