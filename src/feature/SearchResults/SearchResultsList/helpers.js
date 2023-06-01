@@ -15,5 +15,3 @@ export const getSearchResults = (searchTerm, offset) => {
         totalListLength: allResults?.length ?? 0
     })
 };
-
-
