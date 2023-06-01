@@ -15,7 +15,7 @@ export const SearchResultsList = ({ searchTerm }) => {
       const start = performance.now();
       const { results = [], totalListLength } = await getSearchResults(searchTerm, offset);
       const end = performance.now();
-      setSearchDuration(((end - start) / 1000).toFixed(4));
+      setSearchDuration(Number(((end - start) / 1000).toFixed(4)));
       setSearchResults(results);
       setListLength(totalListLength);
     }
@@ -23,7 +23,7 @@ export const SearchResultsList = ({ searchTerm }) => {
   }, [searchTerm, offset, listLength]);
   return (
     <>
-      <Metadata resultsLength={listLength} requestTime={searchDuration} />
+      {listLength ? <Metadata resultsLength={listLength} requestTime={searchDuration} /> : ''}
       {searchResults?.map((result) => (
         <SearchResultsElement key={result.id} result={result} />
       ))}
