@@ -128,8 +128,7 @@ export const SearchForm = () => {
         }}
         onSubmit={(e) => {
           handleSubmit(e);
-        }}
-      >
+        }}>
         <div ref={suggestionsRef}>
           <SearchInput
             value={inputValue}

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { getSearchResults } from './helpers';
 import { SearchResultsElement } from '../SearchResultsElement';
 import { Pagination } from '../Pagination';
@@ -22,4 +23,7 @@ export const SearchResultsList = ({ searchTerm }) => {
       <Pagination offset={offset} setOffset={setOffset} listLength={listLength} />
     </>
   );
+};
+SearchResultsList.propTypes = {
+  searchTerm: PropTypes.string.isRequired
 };

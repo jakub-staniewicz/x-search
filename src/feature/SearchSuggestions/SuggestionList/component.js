@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 const getClassString = (selected, recentSearch) =>
   `${selected ? 'selected' : ''} ${recentSearch ? 'recentSearch' : ''}`;
 
@@ -22,15 +23,13 @@ export const SuggestionsList = ({
                 key={suggestion.search}
                 onClick={() => {
                   onClick(suggestion, index);
-                }}
-              >
+                }}>
                 {suggestion.search}
                 {recentSearch && (
                   <button
                     onClick={(e) => {
                       onDelete(suggestion, e);
-                    }}
-                  >
+                    }}>
                     delete
                   </button>
                 )}
@@ -41,4 +40,15 @@ export const SuggestionsList = ({
       )}
     </>
   );
+};
+SuggestionsList.propTypes = {
+  suggestions: PropTypes.arrayOf(
+    PropTypes.shape({
+      search: PropTypes.string.isRequired,
+      fromSearchHistory: PropTypes.bool
+    })
+  ),
+  selectedSearchSuggestionIndex: PropTypes.number,
+  onDelete: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired
 };

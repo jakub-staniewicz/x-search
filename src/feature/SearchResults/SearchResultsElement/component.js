@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { generateLink } from './helpers';
 export const SearchResultsElement = ({ result }) => {
@@ -9,4 +10,11 @@ export const SearchResultsElement = ({ result }) => {
       <span className="resultsContent">{result.plot}</span>
     </>
   );
+};
+
+SearchResultsElement.propTypes = {
+  result: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    plot: PropTypes.string.isRequired
+  }).isRequired
 };
