@@ -23,6 +23,7 @@ export const SearchForm = () => {
   const [filteredHistoricalSearches, setFilteredHistoricalSearches] = React.useState(() =>
     getRecentSearches(inputValue)
   );
+  const [allSuggestions, setAllSuggestions] = useState();
   const navigate = useNavigate();
 
   const showResults = (searchString) => {
@@ -70,7 +71,16 @@ export const SearchForm = () => {
     setInputValue(getSearchParamFromUrl());
   }, []);
 
-  const allSuggestions = getAllSuggestions(inputValue, filteredHistoricalSearches);
+  useEffect(() => {
+    getAllSuggestions(inputValue, filteredHistoricalSearches)
+      .then((suggestions) => setAllSuggestions(suggestions))
+      .catch((e) => {
+        throw new Error(
+          `There was an error while getting suggestions. reason ${JSON.stringify(e)}`
+        );
+      });
+  }, [inputValue, filteredHistoricalSearches]);
+
   const handleKeyDown = (event) => {
     if (event.key === 'ArrowUp' && allSuggestions.length > 0) {
       event.preventDefault();

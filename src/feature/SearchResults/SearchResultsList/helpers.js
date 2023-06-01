@@ -12,8 +12,14 @@ function filterListByTitle(list, searchTerm) {
 
 export const getSearchResults = (searchTerm, offset) => {
   const allResults = filterListByTitle(movies, searchTerm);
-  return {
-    results: allResults?.slice(offset, offset + ELEMENTS_PER_PAGE),
-    totalListLength: allResults?.length ?? 0
-  };
+  return new Promise((resolve) => {
+    setTimeout(
+      () =>
+        resolve({
+          results: allResults?.slice(offset, offset + ELEMENTS_PER_PAGE),
+          totalListLength: allResults?.length ?? 0
+        }),
+      Math.random() * 500
+    );
+  });
 };

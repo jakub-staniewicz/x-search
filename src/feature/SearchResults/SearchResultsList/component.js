@@ -9,14 +9,21 @@ export const SearchResultsList = ({ searchTerm }) => {
   const [searchResults, setSearchResults] = useState(null);
   const [offset, setOffset] = useState(0);
   const [listLength, setListLength] = useState(0);
+  const [searchDuration, setSearchDuration] = useState(0);
   useEffect(() => {
-    const { results = [], totalListLength } = getSearchResults(searchTerm, offset);
-    setSearchResults(results);
-    setListLength(totalListLength);
+    async function getSuggestions() {
+      const start = performance.now();
+      const { results = [], totalListLength } = await getSearchResults(searchTerm, offset);
+      const end = performance.now();
+      setSearchDuration(((end - start) / 1000).toFixed(4));
+      setSearchResults(results);
+      setListLength(totalListLength);
+    }
+    getSuggestions();
   }, [searchTerm, offset, listLength]);
   return (
     <>
-      <Metadata resultsLength={listLength} requestTime={0.0034} />
+      <Metadata resultsLength={listLength} requestTime={searchDuration} />
       {searchResults?.map((result) => (
         <SearchResultsElement key={result.id} result={result} />
       ))}

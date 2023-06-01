@@ -14,7 +14,7 @@ const getFilteredSuggestions = (inputValue) => {
 
 export const getAllSuggestions = (inputValue, filteredHistoricalSearches) => {
   const filteredSuggestions = getFilteredSuggestions(inputValue);
-  return inputValue
+  const allSuggestions = inputValue
     ? [
         ...filteredHistoricalSearches
           .sort(sortAlphabeticallyPredicate)
@@ -28,6 +28,7 @@ export const getAllSuggestions = (inputValue, filteredHistoricalSearches) => {
         .filter(onlyUnique)
         .slice(0, 10)
     : [];
+  return Promise.resolve(allSuggestions);
 };
 
 export const getRecentSearches = (inputValue) =>

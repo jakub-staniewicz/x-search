@@ -3,7 +3,7 @@ import { movies } from '../../../data/movies';
 import { ELEMENTS_PER_PAGE } from './constants';
 
 describe('getSearchResults', () => {
-  it('returns an object with results and totalListLength', () => {
+  it('returns an object with results and totalListLength', async () => {
     const searchTerm = 'test';
     const offset = 0;
     const allResults = movies.filter((item) => {
@@ -16,7 +16,7 @@ describe('getSearchResults', () => {
       results: allResults.slice(offset, offset + ELEMENTS_PER_PAGE),
       totalListLength: allResults.length ?? 0
     };
-    const result = getSearchResults(searchTerm, offset);
+    const result = await getSearchResults(searchTerm, offset);
     expect(result).toEqual(expectedResults);
   });
 });
