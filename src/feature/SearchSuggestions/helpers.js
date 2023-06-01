@@ -1,9 +1,3 @@
-export function storeStringInLocalStorage(str) {
-    const storedStrings = JSON.parse(localStorage.getItem('storedStrings')) || [];
-    storedStrings.push(str);
-    localStorage.setItem('storedStrings', JSON.stringify(storedStrings));
-}
-
 export function getAllStoredStrings() {
     return JSON.parse(localStorage.getItem('storedStrings')) || [];
 }
@@ -12,11 +6,7 @@ export function setAllStoredStrings(strings) {
     localStorage.setItem('storedStrings', JSON.stringify(strings));
 }
 
-export function removeStringFromLocalStorage(str) {
-    const storedStrings = JSON.parse(localStorage.getItem('storedStrings')) || [];
-    const updatedStrings = storedStrings.filter((s) => s !== str);
-    localStorage.setItem('storedStrings', JSON.stringify(updatedStrings));
-}
+
 export const getSearchParamFromUrl = () => {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get('search');
