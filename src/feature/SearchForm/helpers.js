@@ -57,3 +57,44 @@ export const checkString = (string, stringsArray) => {
   }
   return true;
 };
+
+export const generateHandleKeyDown = (
+  allSuggestions,
+  selectedSearchSuggestionIndex,
+  setSelectedSearchSuggestionIndex,
+  setSearchTerm,
+  setSearchSugestionVisibility
+) => {
+  return (event) => {
+    if (event.key === 'ArrowUp' && allSuggestions.length > 0) {
+      event.preventDefault();
+      setSelectedSearchSuggestionIndex((prevIndex) => {
+        if (prevIndex === null) {
+          return allSuggestions.length - 1;
+        }
+        const currentIndex = prevIndex === 0 ? allSuggestions.length - 1 : prevIndex - 1;
+        return currentIndex;
+      });
+    }
+    if (event.key === 'ArrowDown' && allSuggestions.length > 0) {
+      event.preventDefault();
+      setSelectedSearchSuggestionIndex((prevIndex) => {
+        if (prevIndex === null) {
+          return 0;
+        }
+        const currentIndex = prevIndex === allSuggestions.length - 1 ? 0 : prevIndex + 1;
+        return currentIndex;
+      });
+    }
+
+    if (
+      event.key === 'Enter' &&
+      allSuggestions.length > 0 &&
+      selectedSearchSuggestionIndex < allSuggestions.length &&
+      selectedSearchSuggestionIndex >= 0
+    ) {
+      setSearchTerm(allSuggestions[selectedSearchSuggestionIndex]);
+      setSearchSugestionVisibility(false);
+    }
+  };
+};
