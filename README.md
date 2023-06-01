@@ -1,6 +1,26 @@
-# Getting Started with Create React App
+# X search assignment task
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Data is hardcoded on the basis of:
+[https://github.com/erik-sytnyk/movies-list/blob/master/db.json](https://github.com/erik-sytnyk/movies-list/blob/master/db.json)
+
+Just for sake of presentation each title was mutated 6 times (prefix added) just to show that
+*pagination* works.
+
+The implementation is a tad more complex than in assignment.
+After keyword is provided to input, you can (let's assume input is filled with "Al"):
+- click on suggestion -> search results for clicked string will be shown (results for Alive)
+- press keyDown -> first suggestion will be highlighted
+- press keyUp -> last suggestion will be highlighted
+- press enter -> results for Al will be shown
+
+Delete button is shown only if relevant (first as I was instructed to show only one recentSearch)
+suggestion is highlighted or hovered.
+
+While search suggestion is clicked, results are shown, number of results and time of (faked search is real and based on random promise resolution delay).
+
+Clicking on the results link opens a new tab with relevant google search.
+
 
 ## Available Scripts
 
@@ -10,11 +30,15 @@ In the project directory, you can run:
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+You can also test url integration to see searches related to Alive movie:
+[http://localhost:3000/x-search?search=Alive](http://localhost:3000/x-search?search=Alive)
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
 ### `npm test`
+
+There are 20 unit tests provided.
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
@@ -29,42 +53,3 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
