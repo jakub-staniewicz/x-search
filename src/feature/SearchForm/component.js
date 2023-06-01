@@ -3,6 +3,7 @@ import { setAllStoredStrings } from '../SearchSuggestions/SuggestionList/helpers
 import { SearchInput } from '../SearchSuggestions/SearchInput';
 import { SuggestionsList } from '../SearchSuggestions/SuggestionList';
 import { getSearchParamFromUrl } from '../SearchSuggestions/SuggestionList/helpers';
+import { checkString } from './helpers';
 import { useNavigate } from 'react-router-dom';
 import { SearchResultsList } from '../SearchResults/SearchResultsList';
 import {
@@ -34,10 +35,13 @@ export const SearchForm = () => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
+    const searchString = getSearchStringForResults(searchTerm, inputValue);
     if (newSearchExists(searchTerm)) {
       setFilteredHistoricalSearches([...filteredHistoricalSearches, searchTerm?.search]);
+    } else if (searchString && checkString(searchString, filteredHistoricalSearches)) {
+      setFilteredHistoricalSearches([...filteredHistoricalSearches, searchString]);
     }
-    const searchString = getSearchStringForResults(searchTerm, inputValue);
+
     if (searchString) {
       showResults(searchString);
     }
@@ -120,7 +124,7 @@ export const SearchForm = () => {
     inputRef.current.focus();
   };
 
-  const onAdd = (suggestion) => {
+  const onSuggestionClick = (suggestion) => {
     if (allSuggestions.length > 0) {
       const searchString = suggestion?.search;
       if (!suggestion.fromSearchHistory && typeof searchString === 'string') {
@@ -152,7 +156,7 @@ export const SearchForm = () => {
               inputValue={inputValue}
               suggestions={allSuggestions}
               onDelete={onDelete}
-              onClick={onAdd}
+              onClick={onSuggestionClick}
               selectedSearchSuggestionIndex={selectedSearchSuggestionIndex}
             />
           )}

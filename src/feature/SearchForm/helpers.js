@@ -45,3 +45,15 @@ export const getSearchStringForResults = (searchTerm, inputValue) => {
 };
 
 export const outsideEvent = (ref, event) => ref.current && !ref.current.contains(event.target);
+export const checkString = (string, stringsArray) => {
+  if (!string) {
+    return false;
+  }
+  if (string === '') {
+    return false;
+  }
+  if (stringsArray.includes(string)) {
+    return false;
+  }
+  return true;
+};

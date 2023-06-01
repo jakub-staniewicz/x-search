@@ -5,10 +5,11 @@ Data is hardcoded on the basis of:
 [https://github.com/erik-sytnyk/movies-list/blob/master/db.json](https://github.com/erik-sytnyk/movies-list/blob/master/db.json)
 
 Just for sake of presentation each title was mutated 6 times (prefix added) just to show that
-*pagination* works.
+_pagination_ works.
 
 The implementation is a tad more complex than in assignment.
 After keyword is provided to input, you can (let's assume input is filled with "Al"):
+
 - click on suggestion -> search results for clicked string will be shown (results for Alive)
 - press keyDown -> first suggestion will be highlighted
 - press keyUp -> last suggestion will be highlighted
@@ -20,7 +21,6 @@ suggestion is highlighted or hovered.
 While search suggestion is clicked, results are shown, number of results and time of (faked search is real and based on random promise resolution delay).
 
 Clicking on the results link opens a new tab with relevant google search.
-
 
 ## Available Scripts
 
@@ -52,4 +52,3 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
