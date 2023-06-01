@@ -19,7 +19,7 @@ export const getSearchResults = (searchTerm, offset) => {
           results: allResults?.slice(offset, offset + ELEMENTS_PER_PAGE),
           totalListLength: allResults?.length ?? 0
         }),
-      Math.random() * 500
+      Math.random() * 250
     );
   });
 };
